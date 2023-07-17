@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] LayerMask enemyLayers;
+    [SerializeField] int damage = 5;
 
     void Update()
     {
@@ -22,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach(Collider2D enemy in hitEnemies)
         {
+            enemy.GetComponent<Zombie>().TakeDamage(damage);
             Debug.Log("We hit " + enemy.name);
         }
     }
