@@ -14,6 +14,7 @@ public class Swordman : MonoBehaviour
     [SerializeField] int maxHealth = 10;
     [SerializeField] GameObject gameOverUI;
     int health;
+    Healthbar healthbar;
 
     [Header("Dash")]
     [SerializeField] float dashingPower = 10f;
@@ -27,6 +28,8 @@ public class Swordman : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         
         health = maxHealth;
+        healthbar = FindObjectOfType<Healthbar>().GetComponent<Healthbar>();
+        healthbar.SetMaxHealth(health);
     }
 
     void Update()
@@ -76,6 +79,7 @@ public class Swordman : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        healthbar.SetHealth(health);
         if(health <= 0)
         {
             Die();

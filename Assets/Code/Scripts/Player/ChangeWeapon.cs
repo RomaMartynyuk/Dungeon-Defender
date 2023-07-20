@@ -7,6 +7,12 @@ public class ChangeWeapon : MonoBehaviour
     [SerializeField] GameObject sword;
     [SerializeField] GameObject axe;
 
+    void Start()
+    {
+        sword.SetActive(true);
+        axe.SetActive(false);
+    }
+
     void Update()
     {
         if(Input.GetMouseButtonDown(1) && sword.activeSelf)
