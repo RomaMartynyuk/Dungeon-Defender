@@ -1379,6 +1379,7 @@ GameObject:
   - component: {fileID: 950422204}
   - component: {fileID: 950422206}
   - component: {fileID: 950422205}
+  - component: {fileID: 950422207}
   m_Layer: 5
   m_Name: Current Weapon
   m_TagString: Untagged
@@ -1444,6 +1445,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950422203}
   m_CullTransparentMesh: 1
+--- !u!114 &950422207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950422203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4792a5434892bbb4fa1d0ba9df5f2335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
 --- !u!1 &962949562
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,7 +2325,7 @@ GameObject:
   - component: {fileID: 1666824529}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
