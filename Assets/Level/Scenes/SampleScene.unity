@@ -603,6 +603,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   damage: 5
+  reloadTime: 3
 --- !u!212 &403222604
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1050,10 +1051,10 @@ MonoBehaviour:
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.18
-  m_DeadZoneHeight: 0.3
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_DeadZoneWidth: 0.05
+  m_DeadZoneHeight: 0.13
+  m_SoftZoneWidth: 0.93
+  m_SoftZoneHeight: 0.91
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -2415,6 +2416,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   damage: 5
+  reloadTime: 1
 --- !u!1 &1704482922
 GameObject:
   m_ObjectHideFlags: 0
