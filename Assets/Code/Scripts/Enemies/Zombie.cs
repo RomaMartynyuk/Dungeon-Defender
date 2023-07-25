@@ -13,6 +13,7 @@ public class Zombie : MonoBehaviour
     [Header("Health")]
     [SerializeField] int maxHealth = 10;
     int health;
+    Healthbar healthbar;
 
     [Header("Attack")]
     [SerializeField] int damage = 5;
@@ -26,6 +27,9 @@ public class Zombie : MonoBehaviour
 
         health = maxHealth;
         _timeBtwAttacks = timeBtwAttacks;
+
+        healthbar = GetComponentInChildren<Healthbar>();
+        healthbar.SetMaxHealth(health);
     }
 
     void Update()
@@ -86,6 +90,7 @@ public class Zombie : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        healthbar.SetHealth(health);
         if(health <= 0)
         {
             Die();
@@ -94,6 +99,7 @@ public class Zombie : MonoBehaviour
 
     void Die()
     {
+        FindObjectOfType<WaveManager>().DecreaseAliveEnemies();
         Destroy(gameObject);
     }
 }

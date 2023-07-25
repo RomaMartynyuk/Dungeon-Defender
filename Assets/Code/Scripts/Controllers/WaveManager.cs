@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] List<Wave> waves;
     [SerializeField] float timeBtwWaves;
+    [SerializeField] TextMeshProUGUI numOfWaveUI;
     float countdown;
     int currWave;
     public int amountWaves;
@@ -46,6 +48,8 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
+        numOfWaveUI.text = GetCurrWave().ToString();
+
         Wave wave = waves[currWave];
 
         for (int i = 0; i < wave.count.Length; i++)
@@ -54,7 +58,6 @@ public class WaveManager : MonoBehaviour
             {
                 int spawnPointIndex = Random.Range(0, spawnPoints.Length);
                 SpawnEnemy(wave.enemyPrefab[i], spawnPointIndex);
-                Debug.Log(spawnPointIndex);
 
                 yield return new WaitForSeconds(1f / wave.rate);
             }
@@ -67,6 +70,16 @@ public class WaveManager : MonoBehaviour
     {
         Instantiate(enemy, spawnPoints[spawnPoint].position, spawnPoints[spawnPoint].rotation);
         aliveEnemies++;
+    }
+
+    public int GetCurrWave()
+    {
+        return currWave;
+    }
+
+    public void DecreaseAliveEnemies()
+    {
+        aliveEnemies--;
     }
 
 }
