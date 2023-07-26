@@ -97,7 +97,6 @@ public class Swordman : MonoBehaviour
     //DASH
     IEnumerator Dash()
     {
-        col.enabled = false;
 
         canDash = false;
         isDashing = true;
@@ -115,7 +114,6 @@ public class Swordman : MonoBehaviour
 
         yield return new WaitForSeconds(dashingTime);
 
-        col.enabled = true;
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
