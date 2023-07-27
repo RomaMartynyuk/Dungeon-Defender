@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
+    Animator animator;
+    bool canMove = true;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float stopDistance;
@@ -16,6 +19,8 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         health = maxHealth;
@@ -23,11 +28,15 @@ public class Zombie : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+        { return; }
+
         if (targetPlayer == null)
             return;
         if (Vector2.Distance(transform.position, targetPlayer.position) > stopDistance)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, moveSpeed * Time.deltaTime);
+            animator.SetBool("isMoving", true);
         }
     }
 
@@ -53,12 +62,15 @@ public class Zombie : MonoBehaviour
         health -= damage;
         if(health <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    void Die()
+    IEnumerator Die()
     {
+        canMove = false;
+        animator.SetTrigger("isDying");
+        yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
 }

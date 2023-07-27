@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Swordman : MonoBehaviour
 {
+    Animator animator;
+    public bool canMove = true;
+
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
     Rigidbody2D rb;
@@ -25,6 +28,8 @@ public class Swordman : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         rb = GetComponent<Rigidbody2D>();
         
         health = maxHealth;
@@ -34,6 +39,9 @@ public class Swordman : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+            return; 
+
         if (isDashing)
             return;
 
@@ -49,6 +57,9 @@ public class Swordman : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove)
+            return;
+
         if (isDashing)
             return;
 
@@ -67,6 +78,17 @@ public class Swordman : MonoBehaviour
         {
             Flip();
         }
+
+        if (movement.x < 0 || movement.x > 0 || movement.y < 0 || movement.y > 0)
+        {
+            animator.SetBool("isMoving", true);
+            animator.SetBool("isIdle", false);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+            animator.SetBool("isIdle", true);
+        }
     }
 
     void Flip()
@@ -82,12 +104,16 @@ public class Swordman : MonoBehaviour
         healthbar.SetHealth(health);
         if(health <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    void Die()
+    IEnumerator Die()
     {
+        canMove = false;
+        animator.SetTrigger("isDying");
+        yield return new WaitForSeconds(1);
+
         gameOverUI.SetActive(true);
         Destroy(gameObject);
     }
@@ -95,6 +121,8 @@ public class Swordman : MonoBehaviour
     //DASH
     IEnumerator Dash()
     {
+        animator.SetTrigger("isDashing");
+
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
