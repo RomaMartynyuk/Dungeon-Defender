@@ -10,6 +10,7 @@ public class Swordman : MonoBehaviour
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
     Rigidbody2D rb;
+    Collider2D col;
     Vector2 movement;
     bool facingRight = true;
 
@@ -31,6 +32,7 @@ public class Swordman : MonoBehaviour
         animator = GetComponent<Animator>();
 
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
         
         health = maxHealth;
         healthbar = FindObjectOfType<Healthbar>().GetComponent<Healthbar>();
@@ -122,6 +124,7 @@ public class Swordman : MonoBehaviour
     IEnumerator Dash()
     {
         animator.SetTrigger("isDashing");
+        col.enabled = false;
 
         canDash = false;
         isDashing = true;
@@ -139,6 +142,7 @@ public class Swordman : MonoBehaviour
 
         yield return new WaitForSeconds(dashingTime);
 
+        col.enabled = true;
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);

@@ -11,6 +11,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] LayerMask enemyLayers;
     [SerializeField] int damage = 5;
+    [SerializeField] float reloadTime;
+    float _reloadTime;
+
+    void Start()
+    {
+        _reloadTime = reloadTime;
+    }
 
     private void Start()
     {
@@ -20,9 +27,13 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && _reloadTime <= 0)
         {
             StartCoroutine(Attack());
+        }
+        else
+        {
+            _reloadTime -= Time.deltaTime;
         }
     }
 
@@ -38,10 +49,9 @@ public class PlayerAttack : MonoBehaviour
         foreach(Collider2D enemy in hitEnemies)
         {
             enemy.GetComponent<Zombie>().TakeDamage(damage);
-            Debug.Log("We hit " + enemy.name);
         }
-        yield return new WaitForSeconds(0.5f);
-        swordman.canMove = true;
+
+        _reloadTime = reloadTime;
     }
 
     void OnDrawGizmosSelected()
