@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 6336976687345249012}
   - component: {fileID: 5340684985275949255}
   - component: {fileID: 5771443716536243512}
+  - component: {fileID: 3753200855897581181}
   m_Layer: 8
   m_Name: SecondZombie
   m_TagString: Untagged
@@ -152,7 +153,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1483733879, guid: 0e0aa0e22a064fe44b492e2748308257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

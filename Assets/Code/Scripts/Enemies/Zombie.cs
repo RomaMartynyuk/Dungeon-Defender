@@ -37,7 +37,7 @@ public class Zombie : MonoBehaviour
         if (targetPlayer == null)
             return;
 
-        if(Vector2.Distance(transform.position, targetPlayer.transform.position) < attackRange)
+        if (Vector2.Distance(transform.position, targetPlayer.transform.position) < attackRange)
         {
             Attack();
         }
@@ -76,7 +76,7 @@ public class Zombie : MonoBehaviour
 
     void Attack()
     {
-        if(_timeBtwAttacks <= 0)
+        if (_timeBtwAttacks <= 0)
         {
             targetPlayer.GetComponent<Swordman>().TakeDamage(damage);
             _timeBtwAttacks = timeBtwAttacks;
