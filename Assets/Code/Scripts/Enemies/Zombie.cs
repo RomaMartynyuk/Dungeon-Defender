@@ -4,39 +4,46 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    Animator animator;
-    bool canMove = true;
-
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float stopDistance;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float stopDistance = 0.5f;
     Transform targetPlayer;
     bool facingRight = true;
 
     [Header("Health")]
     [SerializeField] int maxHealth = 10;
     int health;
+    Healthbar healthbar;
+
+    [Header("Attack")]
+    [SerializeField] int damage = 5;
+    [SerializeField] float attackRange = 1f;
+    [SerializeField] float timeBtwAttacks;
+    float _timeBtwAttacks;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-
         targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         health = maxHealth;
+        _timeBtwAttacks = timeBtwAttacks;
+
+        healthbar = GetComponentInChildren<Healthbar>();
+        healthbar.SetMaxHealth(health);
     }
 
     void Update()
     {
-        if (!canMove)
-        { return; }
-
         if (targetPlayer == null)
             return;
-        if (Vector2.Distance(transform.position, targetPlayer.position) > stopDistance)
+
+        if (Vector2.Distance(transform.position, targetPlayer.transform.position) < attackRange)
         {
-            transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, moveSpeed * Time.deltaTime);
-            animator.SetBool("isMoving", true);
+            Attack();
+        }
+        else
+        {
+            Move();
         }
     }
 
@@ -51,26 +58,48 @@ public class Zombie : MonoBehaviour
             Flip();
         }
     }
+
+    void Move()
+    {
+        if (Vector2.Distance(transform.position, targetPlayer.position) > stopDistance)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, moveSpeed * Time.deltaTime);
+            _timeBtwAttacks = timeBtwAttacks;
+        }
+    }
+
     void Flip()
     {
         facingRight = !facingRight;
         transform.Rotate(0f, 180f, 0f);
     }
 
-    public void TakeDamage(int damage)
+    void Attack()
     {
-        health -= damage;
-        if(health <= 0)
+        if (_timeBtwAttacks <= 0)
         {
-            StartCoroutine(Die());
+            targetPlayer.GetComponent<Swordman>().TakeDamage(damage);
+            _timeBtwAttacks = timeBtwAttacks;
+        }
+        else
+        {
+            _timeBtwAttacks -= Time.deltaTime;
         }
     }
 
-    IEnumerator Die()
+    public void TakeDamage(int damage)
     {
-        canMove = false;
-        animator.SetTrigger("isDying");
-        yield return new WaitForSeconds(1);
+        health -= damage;
+        healthbar.SetHealth(health);
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        FindObjectOfType<WaveManager>().DecreaseAliveEnemies();
         Destroy(gameObject);
     }
 }
