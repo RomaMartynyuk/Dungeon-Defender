@@ -57,8 +57,8 @@ public class BasedUI : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GoToMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
+    //public void GoToMenu()
+    //{
+    //    SceneManager.LoadScene(0);
+    //}
 }
