@@ -6,6 +6,7 @@ public class Swordman : MonoBehaviour
 {
     Animator animator;
     public bool canMove = true;
+    public bool isDied = false;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
@@ -27,15 +28,16 @@ public class Swordman : MonoBehaviour
     bool canDash = true;
     bool isDashing;
 
-    void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
-
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
-        
-        health = maxHealth;
         healthbar = FindObjectOfType<Healthbar>().GetComponent<Healthbar>();
+    }
+
+    void Start()
+    {
+        health = maxHealth;
         healthbar.SetMaxHealth(health);
     }
 
@@ -102,29 +104,28 @@ public class Swordman : MonoBehaviour
     //HEALTH AND DIE
     public void TakeDamage(int damage)
     {
+        if (!canMove)
+            return;
         health -= damage;
         healthbar.SetHealth(health);
         if(health <= 0)
         {
-            StartCoroutine(Die());
+            Die();
         }
     }
 
-    IEnumerator Die()
+    void Die()
     {
         canMove = false;
         animator.SetTrigger("isDying");
-        yield return new WaitForSeconds(1);
-
         gameOverUI.SetActive(true);
-        Destroy(gameObject);
+        isDied = true;
     }
 
     //DASH
     IEnumerator Dash()
     {
         animator.SetTrigger("isDashing");
-        col.enabled = false;
 
         canDash = false;
         isDashing = true;
@@ -142,7 +143,6 @@ public class Swordman : MonoBehaviour
 
         yield return new WaitForSeconds(dashingTime);
 
-        col.enabled = true;
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);

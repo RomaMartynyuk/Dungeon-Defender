@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
+    Animator animator;
+    Swordman player;
+
     [Header("Movement")]
     [SerializeField] float moveSpeed;
     [SerializeField] float stopDistance = 0.5f;
     Transform targetPlayer;
     bool facingRight = true;
+    bool canMove = true;
 
     [Header("Health")]
     [SerializeField] int maxHealth = 10;
@@ -21,19 +25,27 @@ public class Zombie : MonoBehaviour
     [SerializeField] float timeBtwAttacks;
     float _timeBtwAttacks;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        healthbar = GetComponentInChildren<Healthbar>();
+    }
+
     void Start()
     {
         targetPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Swordman>();
 
         health = maxHealth;
         _timeBtwAttacks = timeBtwAttacks;
 
-        healthbar = GetComponentInChildren<Healthbar>();
         healthbar.SetMaxHealth(health);
     }
 
     void Update()
     {
+        if (!canMove | player.isDied)
+            return;
         if (targetPlayer == null)
             return;
 
@@ -41,7 +53,7 @@ public class Zombie : MonoBehaviour
         {
             Attack();
         }
-        else
+        else if(Vector2.Distance(transform.position, targetPlayer.transform.position) > attackRange)
         {
             Move();
         }
@@ -64,6 +76,8 @@ public class Zombie : MonoBehaviour
         if (Vector2.Distance(transform.position, targetPlayer.position) > stopDistance)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPlayer.position, moveSpeed * Time.deltaTime);
+            animator.SetBool("isIdling", false);
+            animator.SetBool("isMoving", true);
             _timeBtwAttacks = timeBtwAttacks;
         }
     }
@@ -76,6 +90,8 @@ public class Zombie : MonoBehaviour
 
     void Attack()
     {
+        animator.SetBool("isMoving", false);
+        animator.SetTrigger("isAttacking");
         if (_timeBtwAttacks <= 0)
         {
             targetPlayer.GetComponent<Swordman>().TakeDamage(damage);
@@ -83,23 +99,30 @@ public class Zombie : MonoBehaviour
         }
         else
         {
+            animator.SetBool("isIdling", true);
             _timeBtwAttacks -= Time.deltaTime;
         }
     }
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        healthbar.SetHealth(health);
-        if(health <= 0)
+        if(canMove)
         {
-            Die();
+            health -= damage;
+            healthbar.SetHealth(health);
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 
     void Die()
     {
+        canMove = false;
+        animator.SetTrigger("isDying");
         FindObjectOfType<WaveManager>().DecreaseAliveEnemies();
-        Destroy(gameObject);
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject, 1f);
     }
 }

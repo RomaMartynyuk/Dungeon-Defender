@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 6336976687345249012}
   - component: {fileID: 5340684985275949255}
   - component: {fileID: 5771443716536243512}
-  - component: {fileID: 3753200855897581181}
+  - component: {fileID: -4764219802629755996}
   m_Layer: 8
   m_Name: SecondZombie
   m_TagString: Untagged
@@ -240,11 +240,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  stopDistance: 0.25
+  stopDistance: 0.5
   maxHealth: 10
   damage: 5
   attackRange: 1
   timeBtwAttacks: 3
+--- !u!95 &-4764219802629755996
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4409123435896539906}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9d17c82090be4d4da657d279e0730d8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4652572032136523464
 GameObject:
   m_ObjectHideFlags: 0

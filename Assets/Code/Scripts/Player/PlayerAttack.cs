@@ -14,22 +14,24 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float reloadTime;
     float _reloadTime;
 
-    void Start()
-    {
-        _reloadTime = reloadTime;
-    }
-
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         swordman = GetComponent<Swordman>();
     }
 
+    void Start()
+    {
+        _reloadTime = reloadTime;
+    }
+
     void Update()
     {
+        if (!swordman.canMove)
+            return;
         if (Input.GetMouseButtonDown(0) && _reloadTime <= 0)
         {
-            StartCoroutine(Attack());
+            Attack();
         }
         else
         {
@@ -37,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    IEnumerator Attack()
+    void Attack()
     {
         swordman.canMove = false;
         animator.SetBool("isIdle", false);
@@ -52,6 +54,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         _reloadTime = reloadTime;
+        swordman.canMove = true;
     }
 
     void OnDrawGizmosSelected()

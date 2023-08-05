@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4351748606331948618}
   - component: {fileID: 7511581530452455184}
   - component: {fileID: 3310589906395331176}
-  - component: {fileID: 4940071216509235693}
+  - component: {fileID: -822835199097064440}
   m_Layer: 8
   m_Name: FirstZombie
   m_TagString: Untagged
@@ -168,7 +168,28 @@ MonoBehaviour:
   maxHealth: 10
   damage: 1
   attackRange: 1
-  timeBtwAttacks: 2
+  timeBtwAttacks: 0.7
+--- !u!95 &-822835199097064440
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327026375540654395}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 575046d8005187d45b95b427948b018a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5941591494476144722
 GameObject:
   m_ObjectHideFlags: 0
