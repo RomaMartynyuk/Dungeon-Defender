@@ -18,6 +18,8 @@ public class Zombie : MonoBehaviour
     [SerializeField] int maxHealth = 10;
     int health;
     Healthbar healthbar;
+    [SerializeField] float timeHealthbar;
+    float _timeHealthbar;
 
     [Header("Attack")]
     [SerializeField] int damage = 5;
@@ -48,6 +50,11 @@ public class Zombie : MonoBehaviour
             return;
         if (targetPlayer == null)
             return;
+
+        if (_timeHealthbar < 0)
+            ActivateHealthbar(false);
+        else
+            _timeHealthbar -= Time.deltaTime;
 
         if (Vector2.Distance(transform.position, targetPlayer.transform.position) < attackRange)
         {
@@ -104,12 +111,22 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    void ActivateHealthbar(bool isActive)
+    {
+        healthbar.gameObject.SetActive(isActive);
+        if (isActive)
+            _timeHealthbar = timeHealthbar;
+    }
+
     public void TakeDamage(int damage)
     {
         if(canMove)
         {
             health -= damage;
             healthbar.SetHealth(health);
+
+            ActivateHealthbar(true);
+
             if (health <= 0)
             {
                 Die();

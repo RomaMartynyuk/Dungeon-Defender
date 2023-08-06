@@ -54,6 +54,7 @@ public class WaveManager : MonoBehaviour
     void Win()
     {
         numOfWaveUI.text = " ";
+        Time.timeScale = 0f;
         winMenu.SetActive(true);
     }
 
