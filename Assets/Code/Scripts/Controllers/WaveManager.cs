@@ -18,6 +18,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] List<Wave> waves;
     [SerializeField] float timeBtwWaves;
     [SerializeField] TextMeshProUGUI numOfWaveUI;
+    [SerializeField] GameObject winMenu;
+
     float countdown;
     int currWave;
     public int amountWaves;
@@ -32,7 +34,10 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        if(aliveEnemies > 0)
+        if (currWave == amountWaves && aliveEnemies == 0)
+            Win();
+
+        if (aliveEnemies > 0)
         {
             return;
         }
@@ -44,6 +49,12 @@ public class WaveManager : MonoBehaviour
         }
 
         countdown -= Time.deltaTime;
+    }
+
+    void Win()
+    {
+        numOfWaveUI.text = " ";
+        winMenu.SetActive(true);
     }
 
     IEnumerator SpawnWave()
@@ -74,7 +85,7 @@ public class WaveManager : MonoBehaviour
 
     public int GetCurrWave()
     {
-        return currWave;
+        return currWave + 1;
     }
 
     public void DecreaseAliveEnemies()
