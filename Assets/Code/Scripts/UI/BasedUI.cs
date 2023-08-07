@@ -59,6 +59,6 @@ public class BasedUI : MonoBehaviour
 
     public void GoToMenu()
     {
-        Debug.Log("You are goint to Menu soon!");
+        SceneManager.LoadScene(0);
     }
 }
