@@ -57,6 +57,11 @@ public class PlayerAttack : MonoBehaviour
         swordman.canMove = true;
     }
 
+    public void AddDamage(int addedDamage)
+    {
+        damage += addedDamage;
+    }
+
     void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
