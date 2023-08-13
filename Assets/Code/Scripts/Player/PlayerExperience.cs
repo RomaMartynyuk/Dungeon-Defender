@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerExperience : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class PlayerExperience : MonoBehaviour
     [SerializeField] private float moveSpeedUpgrade;
     [SerializeField] private Button[] upgradeButtons;
 
+    [Header("UI")]
+    [SerializeField] private Slider experienceBar;
+    [SerializeField] private TextMeshProUGUI expPointsText;
+
     private void Awake() 
     {
         player = GetComponent<Swordman>();
@@ -29,6 +34,10 @@ public class PlayerExperience : MonoBehaviour
         expPoints = 0;
         playerLevel = 1;
         neededExp = GetNeededExp(playerLevel);
+
+        //UI
+        experienceBar.maxValue = neededExp;
+        experienceBar.value = experience;
     }
 
     private void Update()
@@ -52,12 +61,15 @@ public class PlayerExperience : MonoBehaviour
     public void AddExp(int exp)
     {
         experience += exp;
+        experienceBar.value = experience;
         if(experience >= neededExp)
         {
             playerLevel++;
             experience = 0;
+            experienceBar.value = experience;
             neededExp = GetNeededExp(playerLevel);
             expPoints++;
+            expPointsText.text = expPoints.ToString();
         }
     }
 
@@ -73,6 +85,7 @@ public class PlayerExperience : MonoBehaviour
         {
             player.AddHealth(healthUpgrade);
             expPoints--;
+            expPointsText.text = expPoints.ToString();
         }
     }
 
@@ -82,6 +95,7 @@ public class PlayerExperience : MonoBehaviour
         {
             player.AddSpeed(moveSpeedUpgrade);
             expPoints--;
+            expPointsText.text = expPoints.ToString();
         }
     }
 
@@ -91,6 +105,7 @@ public class PlayerExperience : MonoBehaviour
         {
             playerAttack.AddDamage(damageUpgrade);
             expPoints--;
+            expPointsText.text = expPoints.ToString();
         }
     }
 }
