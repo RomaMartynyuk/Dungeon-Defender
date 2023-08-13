@@ -101,6 +101,11 @@ public class Swordman : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
+    public void AddSpeed(float addedSpeed)
+    {
+        moveSpeed += addedSpeed;
+    }
+
     //HEALTH AND DIE
     public void TakeDamage(int damage)
     {
@@ -112,6 +117,12 @@ public class Swordman : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void AddHealth(int addedHealth)
+    {
+        maxHealth += addedHealth;
+        health += (int) addedHealth/2;
     }
 
     void Die()

@@ -26,6 +26,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] float attackRange = 1f;
     [SerializeField] float timeBtwAttacks;
     float _timeBtwAttacks;
+    [SerializeField] int experience;
 
     private void Awake()
     {
@@ -139,6 +140,7 @@ public class Zombie : MonoBehaviour
         canMove = false;
         animator.SetTrigger("isDying");
         FindObjectOfType<WaveManager>().DecreaseAliveEnemies();
+        FindObjectOfType<PlayerExperience>().AddExp(experience);
         GetComponent<Collider2D>().enabled = false;
         Destroy(gameObject, 1f);
     }

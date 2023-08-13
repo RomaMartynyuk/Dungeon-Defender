@@ -246,6 +246,7 @@ MonoBehaviour:
   damage: 5
   attackRange: 1
   timeBtwAttacks: 3
+  experience: 30
 --- !u!95 &-4764219802629755996
 Animator:
   serializedVersion: 5

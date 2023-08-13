@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class BasedUI : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject upgradeMenu;
     bool isPaused = false;
     GameObject[] weapons;
 
@@ -25,29 +26,37 @@ public class BasedUI : MonoBehaviour
         }
     }
 
+    public void UpgradeMenu()
+    {
+        upgradeMenu.SetActive(true);
+        Time.timeScale = 0f;
+        PlayerManipulation(false);
+    }
+
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-        FindObjectOfType<Swordman>().enabled = false;
-        FindObjectOfType<ChangeWeapon>().enabled = false;
-        foreach (GameObject weapon in weapons)
-        {
-            weapon.GetComponent<PlayerAttack>().enabled = false;
-        }
+        PlayerManipulation(false);
     }
 
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
+        upgradeMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        FindObjectOfType<ChangeWeapon>().enabled = true;
-        FindObjectOfType<Swordman>().enabled = true;
+        PlayerManipulation(true);
+    }
+
+    void PlayerManipulation(bool playerState)
+    {
+        FindObjectOfType<ChangeWeapon>().enabled = playerState;
+        FindObjectOfType<Swordman>().enabled = playerState;
         foreach (GameObject weapon in weapons)
         {
-            weapon.GetComponent<PlayerAttack>().enabled = true;
+            weapon.GetComponent<PlayerAttack>().enabled = playerState;
         }
     }
 
